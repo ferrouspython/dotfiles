@@ -41,9 +41,6 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
-# Aliases
-alias ls='eza -l -h --git --all --icons=always'
-
 # zoxide
 eval "$(zoxide init zsh)"
 

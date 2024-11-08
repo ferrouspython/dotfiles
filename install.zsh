@@ -2,7 +2,7 @@
 
 export STOW_DIR=~/dotfiles 
 
-stow zshrc
+stow zsh
 stow nvim
 stow neofetch
 stow kitty
