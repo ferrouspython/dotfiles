@@ -7,4 +7,3 @@ stow nvim
 stow neofetch
 stow kitty
 stow starship
-stow nix-darwin
