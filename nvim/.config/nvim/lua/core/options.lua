@@ -1,7 +1,7 @@
 vim.g.have_nerd_font = true -- Turns on nerd fonts
 vim.opt.number = true -- Turns on line numbers
 vim.opt.relativenumber = true -- Turns on relative line numbers
-vim.opt.mouse = "a" -- Enable mouse mode
+vim.opt.mouse = "" -- Disable mouse mode
 vim.opt.showmode = false -- Turns off the mode
 vim.opt.clipboard = "unnamedplus" -- Sync clipboard between OS and Neovim
 vim.opt.breakindent = true -- Enable break indent
@@ -27,3 +27,8 @@ vim.opt.showtabline = 2 -- Always show tabs
 vim.opt.fileencoding = 'utf-8' -- Set encoding
 vim.opt.autoindent = true -- Copy indent from current line when starting a new one
 vim.opt.pumheight = 10 -- Popup menu height
+
+-- Terminal colorscheme configuration
+vim.opt.termguicolors = false -- Use terminal colors instead of GUI colors
+vim.opt.background = "dark" -- Set to "light" if using a light terminal theme
+vim.cmd('colorscheme default') -- Use default colorscheme that respects terminal colors

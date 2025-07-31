@@ -2,6 +2,9 @@ require 'core.options'
 require 'core.keymaps'
 require 'core.snippets'
 
+-- Set Python provider
+vim.g.python3_host_prog = vim.fn.expand('~/.config/nvim/venv/bin/python3')
+
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 local lazyrepo = "https://github.com/folke/lazy.nvim.git"
 if not vim.loop.fs_stat(lazypath) then

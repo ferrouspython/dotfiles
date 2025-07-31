@@ -3,26 +3,26 @@ return {
 	opts = {},
 	config = function()
 		local opts = { noremap = true, silent = true }
-		vim.keymap.set("n", "<C-_>", require("Comment.api").toggle.linewise.current, opts)
-		vim.keymap.set("n", "<C-c>", require("Comment.api").toggle.linewise.current, opts)
-		vim.keymap.set("n", "<C-/>", require("Comment.api").toggle.linewise.current, opts)
+		vim.keymap.set("n", "<C-_>", require("Comment.api").toggle.linewise.current, vim.tbl_extend("force", opts, { desc = "Toggle comment line" }))
+		vim.keymap.set("n", "<C-c>", require("Comment.api").toggle.linewise.current, vim.tbl_extend("force", opts, { desc = "Toggle comment line" }))
+		vim.keymap.set("n", "<C-/>", require("Comment.api").toggle.linewise.current, vim.tbl_extend("force", opts, { desc = "Toggle comment line" }))
 		vim.keymap.set(
 			"v",
 			"<C-_>",
 			"<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>",
-			opts
+			vim.tbl_extend("force", opts, { desc = "Toggle comment selection" })
 		)
 		vim.keymap.set(
 			"v",
 			"<C-c>",
 			"<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>",
-			opts
+			vim.tbl_extend("force", opts, { desc = "Toggle comment selection" })
 		)
 		vim.keymap.set(
 			"v",
 			"<C-/>",
 			"<ESC><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>",
-			opts
+			vim.tbl_extend("force", opts, { desc = "Toggle comment selection" })
 		)
 	end,
 }

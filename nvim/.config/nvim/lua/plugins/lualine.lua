@@ -2,48 +2,42 @@
 return {
 	"nvim-lualine/lualine.nvim",
 	config = function()
-		-- Adapted from: https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/themes/onedark.lua
-		local colors = {
-			blue = "#61afef",
-			green = "#98c379",
-			purple = "#c678dd",
-			cyan = "#56b6c2",
-			red1 = "#e06c75",
-			red2 = "#be5046",
-			yellow = "#e5c07b",
-			fg = "#abb2bf",
-			bg = "#282c34",
-			gray1 = "#828997",
-			gray2 = "#2c323c",
-			gray3 = "#3e4452",
-		}
-
-		local onedark_theme = {
+		-- Terminal-friendly theme using ANSI colors
+		local terminal_theme = {
 			normal = {
-				a = { fg = colors.bg, bg = colors.green, gui = "bold" },
-				b = { fg = colors.fg, bg = colors.gray3 },
-				c = { fg = colors.fg, bg = colors.gray2 },
+				a = { fg = 0, bg = 4, gui = "bold" }, -- black on blue
+				b = { fg = 7, bg = 8 }, -- white on bright black
+				c = { fg = 7, bg = 0 }, -- white on black
 			},
-			command = { a = { fg = colors.bg, bg = colors.yellow, gui = "bold" } },
-			insert = { a = { fg = colors.bg, bg = colors.blue, gui = "bold" } },
-			visual = { a = { fg = colors.bg, bg = colors.purple, gui = "bold" } },
-			terminal = { a = { fg = colors.bg, bg = colors.cyan, gui = "bold" } },
-			replace = { a = { fg = colors.bg, bg = colors.red1, gui = "bold" } },
+			insert = {
+				a = { fg = 0, bg = 2, gui = "bold" }, -- black on green
+				b = { fg = 7, bg = 8 },
+				c = { fg = 7, bg = 0 },
+			},
+			visual = {
+				a = { fg = 0, bg = 5, gui = "bold" }, -- black on magenta
+				b = { fg = 7, bg = 8 },
+				c = { fg = 7, bg = 0 },
+			},
+			replace = {
+				a = { fg = 0, bg = 1, gui = "bold" }, -- black on red
+				b = { fg = 7, bg = 8 },
+				c = { fg = 7, bg = 0 },
+			},
+			command = {
+				a = { fg = 0, bg = 3, gui = "bold" }, -- black on yellow
+				b = { fg = 7, bg = 8 },
+				c = { fg = 7, bg = 0 },
+			},
 			inactive = {
-				a = { fg = colors.gray1, bg = colors.bg, gui = "bold" },
-				b = { fg = colors.gray1, bg = colors.bg },
-				c = { fg = colors.gray1, bg = colors.gray2 },
+				a = { fg = 8, bg = 0 }, -- bright black on black
+				b = { fg = 8, bg = 0 },
+				c = { fg = 8, bg = 0 },
 			},
 		}
 
-		-- Import color theme based on environment variable NVIM_THEME
-		local env_var_nvim_theme = os.getenv("NVIM_THEME") or "nord"
-
-		-- Define a table of themes
-		local themes = {
-			onedark = onedark_theme,
-			nord = "nord",
-		}
+		-- Use terminal theme
+		local theme = terminal_theme
 
 		local mode = {
 			"mode",
@@ -84,12 +78,12 @@ return {
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
-				theme = themes[env_var_nvim_theme], -- Set theme based on environment variable
+				theme = theme, -- Use terminal theme
 				-- Some useful glyphs:
 				-- https://www.nerdfonts.com/cheat-sheet
 				--        
-				section_separators = { left = "", right = "" },
-				component_separators = { left = "", right = "" },
+				section_separators = { left = "", right = "" },
+				component_separators = { left = "|", right = "|" },
 				disabled_filetypes = { "alpha", "neo-tree", "Avante" },
 				always_divide_middle = true,
 			},

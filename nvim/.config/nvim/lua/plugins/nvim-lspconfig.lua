@@ -7,8 +7,25 @@ return {
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 			{ "j-hui/fidget.nvim", opts = {} },
 			"hrsh7th/cmp-nvim-lsp",
+			"b0o/schemastore.nvim", -- For JSON schemas
 		},
 		config = function()
+			-- Auto-detect Python virtual environments
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "python",
+				callback = function()
+					local venv = vim.fn.findfile("venv/bin/python", vim.fn.getcwd() .. ";")
+					if venv ~= "" then
+						vim.g.python3_host_prog = vim.fn.getcwd() .. "/venv/bin/python"
+					else
+						venv = vim.fn.findfile(".venv/bin/python", vim.fn.getcwd() .. ";")
+						if venv ~= "" then
+							vim.g.python3_host_prog = vim.fn.getcwd() .. "/.venv/bin/python"
+						end
+					end
+				end,
+			})
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 				callback = function(event)
@@ -30,7 +47,7 @@ return {
 					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
 					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+					if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
 						local highlight_augroup =
 							vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -51,7 +68,7 @@ return {
 							end,
 						})
 					end
-					if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+					if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
 						map("<leader>th", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 						end, "[T]oggle Inlay [H]ints")
@@ -70,12 +87,124 @@ return {
 						},
 					},
 				},
-				rust_analyzer = {},
+				rust_analyzer = {
+					settings = {
+						["rust-analyzer"] = {
+							check = {
+								command = "clippy",
+							},
+							cargo = {
+								features = "all",
+							},
+						},
+					},
+				},
+				pyright = {
+					settings = {
+						python = {
+							analysis = {
+								autoSearchPaths = true,
+								diagnosticMode = "openFilesOnly",
+								useLibraryCodeForTypes = true,
+								typeCheckingMode = "strict",
+							},
+						},
+					},
+				},
+				solargraph = {
+					settings = {
+						solargraph = {
+							diagnostics = true,
+							completion = true,
+							hover = true,
+							formatting = false, -- We'll use standardrb for formatting
+							symbols = true,
+							definitions = true,
+							rename = true,
+							references = true,
+							folding = true,
+						},
+					},
+				},
+				clangd = {
+					cmd = {
+						"clangd",
+						"--background-index",
+						"--clang-tidy",
+						"--header-insertion=iwyu",
+						"--completion-style=detailed",
+						"--function-arg-placeholders",
+						"--fallback-style=llvm",
+					},
+					init_options = {
+						usePlaceholders = true,
+						completeUnimported = true,
+						clangdFileStatus = true,
+					},
+				},
+				yamlls = {
+					settings = {
+						yaml = {
+							schemas = {
+								kubernetes = "*.yaml",
+								["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+								["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose*.yml",
+							},
+							format = {
+								enable = true,
+							},
+						},
+					},
+				},
+				jsonls = {
+					settings = {
+						json = {
+							schemas = require("schemastore").json.schemas(),
+							validate = { enable = true },
+						},
+					},
+				},
+				terraformls = {},
+				dockerls = {},
+				helm_ls = {
+					settings = {
+						["helm-ls"] = {
+							yamlls = {
+								path = "yaml-language-server",
+							},
+						},
+					},
+				},
+				sqlls = {
+					settings = {
+						sqls = {
+							connections = {
+								-- You can add database connections here later
+								-- {
+								--   driver = "postgresql",
+								--   dataSourceName = "host=localhost port=5432 user=myuser dbname=mydb sslmode=disable",
+								-- },
+							},
+						},
+					},
+				},
 			}
 			require("mason").setup()
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
-				"stylua", -- Used to format Lua code
+				-- Formatters
+				"stylua", -- Lua formatter
+				"ruff", -- Python formatter and linter
+				"black", -- Python formatter (alternative)
+				"isort", -- Python import sorter (alternative)
+				"standardrb", -- Ruby formatter
+				"rubocop", -- Ruby formatter (alternative)
+				"rustfmt", -- Rust formatter (installed via rustup usually)
+				"clang-format", -- C/C++ formatter
+				"prettier", -- Multi-language formatter (JSON, YAML, MD, etc.)
+				"terraform", -- Terraform CLI (includes formatter)
+				-- Debuggers
+				"debugpy", -- Python debugger
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 			require("mason-lspconfig").setup({
