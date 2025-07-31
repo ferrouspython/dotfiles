@@ -10,12 +10,14 @@ $golang\
 $haskell\
 $rust\
 $ruby\
+$kubernetes\
 $aws\
 $docker_context\
 $jobs\
 $cmd_duration\
 $line_break\
-$character"""
+$character
+"""
 
 add_newline = true
 palette = "nord"
@@ -78,6 +80,9 @@ symbol = ' '
 
 [package]
 symbol = '󰏗 '
+
+[kubernetes]
+disabled=false
 
 [aws]
 symbol = ' '
