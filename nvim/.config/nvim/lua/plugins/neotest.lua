@@ -217,11 +217,12 @@ return {
 			})
 
 			-- Set up code coverage signs
-			vim.fn.sign_define("neotest_passed", { text = "✓", texthl = "NeotestPassed" })
-			vim.fn.sign_define("neotest_failed", { text = "✗", texthl = "NeotestFailed" })
-			vim.fn.sign_define("neotest_running", { text = "⟳", texthl = "NeotestRunning" })
-			vim.fn.sign_define("neotest_skipped", { text = "↓", texthl = "NeotestSkipped" })
-			vim.fn.sign_define("neotest_unknown", { text = "?", texthl = "NeotestUnknown" })
+			-- Note: These are now handled by neotest's icons configuration above
+			-- vim.fn.sign_define("neotest_passed", { text = "✓", texthl = "NeotestPassed" })
+			-- vim.fn.sign_define("neotest_failed", { text = "✗", texthl = "NeotestFailed" })
+			-- vim.fn.sign_define("neotest_running", { text = "⟳", texthl = "NeotestRunning" })
+			-- vim.fn.sign_define("neotest_skipped", { text = "↓", texthl = "NeotestSkipped" })
+			-- vim.fn.sign_define("neotest_unknown", { text = "?", texthl = "NeotestUnknown" })
 		end,
 	},
 	-- Coverage integration

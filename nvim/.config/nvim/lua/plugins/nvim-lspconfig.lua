@@ -10,6 +10,18 @@ return {
 			"b0o/schemastore.nvim", -- For JSON schemas
 		},
 		config = function()
+			-- Configure diagnostic signs
+			vim.diagnostic.config({
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = " ",
+						[vim.diagnostic.severity.WARN] = " ",
+						[vim.diagnostic.severity.INFO] = " ",
+						[vim.diagnostic.severity.HINT] = "󰌵",
+					},
+				},
+			})
+
 			-- Auto-detect Python virtual environments
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "python",
@@ -106,7 +118,7 @@ return {
 								autoSearchPaths = true,
 								diagnosticMode = "openFilesOnly",
 								useLibraryCodeForTypes = true,
-								typeCheckingMode = "strict",
+								typeCheckingMode = "basic",
 							},
 						},
 					},
