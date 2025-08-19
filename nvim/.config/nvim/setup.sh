@@ -203,13 +203,9 @@ install_language_tools() {
     log_info "Installing optional language-specific tools..."
     
     # Python tools
-    if command_exists pip3 || command_exists pip; then
-        local pip_cmd="pip3"
-        if ! command_exists pip3; then
-            pip_cmd="pip"
-        fi
-        
-        log_info "Installing Python development tools..."
+    local nvim_venv="$HOME/.config/nvim/venv"
+    if [[ -d "$nvim_venv" ]] && [[ -f "$nvim_venv/bin/pip" ]]; then
+        log_info "Installing Python development tools in Neovim virtual environment..."
         local python_packages=(
             "pytest"
             "pytest-cov"
@@ -220,8 +216,12 @@ install_language_tools() {
         )
         
         for package in "${python_packages[@]}"; do
-            $pip_cmd install --user "$package" 2>/dev/null || log_warning "Failed to install $package"
+            log_info "Installing $package..."
+            "$nvim_venv/bin/pip" install "$package" || log_warning "Failed to install $package"
         done
+    else
+        log_warning "Neovim virtual environment not found. Skipping Python tools installation."
+        log_info "Run the script again and set up the virtual environment first."
     fi
     
     # Ruby tools (if Ruby is installed)
