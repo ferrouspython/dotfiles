@@ -2,9 +2,8 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			{ "williamboman/mason.nvim", config = true },
-			"williamboman/mason-lspconfig.nvim",
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			"williamboman/mason.nvim",
+			{ "williamboman/mason-lspconfig.nvim", version = "^1.0" }, -- Pin to v1.x to avoid breaking changes
 			{ "j-hui/fidget.nvim", opts = {} },
 			"hrsh7th/cmp-nvim-lsp",
 			"b0o/schemastore.nvim", -- For JSON schemas
@@ -47,7 +46,7 @@ return {
 					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
 					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+					if client and client.server_capabilities.documentHighlightProvider then
 						local highlight_augroup =
 							vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -68,7 +67,7 @@ return {
 							end,
 						})
 					end
-					if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+					if client and client.server_capabilities.inlayHintProvider then
 						map("<leader>th", function()
 							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
 						end, "[T]oggle Inlay [H]ints")
@@ -112,6 +111,7 @@ return {
 					},
 				},
 				solargraph = {
+					cmd = { "/opt/homebrew/lib/ruby/gems/3.3.0/bin/solargraph", "stdio" },
 					settings = {
 						solargraph = {
 							diagnostics = true,
@@ -188,26 +188,51 @@ return {
 						},
 					},
 				},
+				-- TypeScript/JavaScript language servers
+				ts_ls = {
+					settings = {
+						typescript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "all",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayVariableTypeHints = true,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+						javascript = {
+							inlayHints = {
+								includeInlayParameterNameHints = "all",
+								includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+								includeInlayFunctionParameterTypeHints = true,
+								includeInlayVariableTypeHints = true,
+								includeInlayPropertyDeclarationTypeHints = true,
+								includeInlayFunctionLikeReturnTypeHints = true,
+								includeInlayEnumMemberValueHints = true,
+							},
+						},
+					},
+				},
+				eslint = {
+					settings = {
+						codeActionOnSave = {
+							enable = true,
+							mode = "problems",
+						},
+					},
+				},
+				tailwindcss = {
+					filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact" },
+				},
 			}
 			require("mason").setup()
-			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
-				-- Formatters
-				"stylua", -- Lua formatter
-				"ruff", -- Python formatter and linter
-				"black", -- Python formatter (alternative)
-				"isort", -- Python import sorter (alternative)
-				"standardrb", -- Ruby formatter
-				"rubocop", -- Ruby formatter (alternative)
-				"rustfmt", -- Rust formatter (installed via rustup usually)
-				"clang-format", -- C/C++ formatter
-				"prettier", -- Multi-language formatter (JSON, YAML, MD, etc.)
-				"terraform", -- Terraform CLI (includes formatter)
-				-- Debuggers
-				"debugpy", -- Python debugger
-			})
-			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+			
+			-- Setup LSP servers with mason-lspconfig
 			require("mason-lspconfig").setup({
+				automatic_installation = false,
+				ensure_installed = vim.tbl_keys(servers),
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}

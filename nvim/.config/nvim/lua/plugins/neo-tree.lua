@@ -44,12 +44,21 @@ return {
 		vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
 		vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
 
+		-- Clean up any existing neo-tree buffers before setup
+		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+			local name = vim.api.nvim_buf_get_name(buf)
+			if name:match("neo%-tree") then
+				vim.api.nvim_buf_delete(buf, { force = true })
+			end
+		end
+
 		require("neo-tree").setup({
 			close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
 			popup_border_style = "rounded",
 			enable_git_status = true,
 			enable_diagnostics = true,
 			use_default_mappings = false,
+			use_popups_for_input = false, -- If using input prompts, don't use popups
 			-- enable_normal_mode_for_inputs = false,                             -- Enable normal mode for input dialogs.
 			open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
 			sort_case_insensitive = false, -- used when sorting files and directories in the tree
@@ -199,6 +208,11 @@ return {
 			},
 			nesting_rules = {},
 			filesystem = {
+				bind_to_cwd = true, -- true creates a 2-way binding between vim's cwd and neo-tree's root
+				cwd_target = {
+					sidebar = "tab", -- sidebar is when position = left or right
+					current = "window", -- current is when position = current
+				},
 				filtered_items = {
 					visible = false, -- when true, they will just be displayed differently than normal items
 					hide_dotfiles = false,
