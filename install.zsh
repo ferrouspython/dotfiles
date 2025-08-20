@@ -8,3 +8,4 @@ stow neofetch
 stow kitty
 stow starship
 stow ghostty
+stow claude
