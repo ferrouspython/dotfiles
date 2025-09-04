@@ -5,8 +5,9 @@
 # Pull additional configurations needed for work
 [ -f "$HOME/.work.zsh" ] && source "$HOME/.work.zsh"
 
-
-
 # Created by `pipx` on 2025-07-23 19:09:08
 export PATH="$PATH:/Users/zachhill/.local/bin"
-export PATH=/opt/avr32-tools/avr32/bin:$PATH
+
+# Homebrew Ruby
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="/opt/homebrew/lib/ruby/gems/3.3.0/bin:$PATH"

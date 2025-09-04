@@ -4,5 +4,3 @@
 # Secrets
 [ -f "$HOME/.env" ] && source "$HOME/.env"
 . "$HOME/.cargo/env"
-
-export AWS_PROFILE=kubos-dev

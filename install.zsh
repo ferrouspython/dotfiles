@@ -9,3 +9,4 @@ stow kitty
 stow starship
 stow ghostty
 stow vscode
+stow claude
