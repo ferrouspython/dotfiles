@@ -1,0 +1,103 @@
+{
+  // ——— trust & git ———
+  "security.workspace.trust.untrustedFiles": "open",
+  "git.openRepositoryInParentFolders": "always",
+  "git.autofetch": true,
+  "git.confirmSync": false,
+
+  // ——— editor basics ———
+  "editor.tabSize": 4,
+  "editor.fontFamily": "fira",
+  "editor.fontSize": 16,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.inlineSuggest.fontSize": 16,
+  "editor.minimap.enabled": false,
+  "editor.codeLens": false,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.smoothScrolling": true,
+  "editor.renderWhitespace": "boundary",
+  "editor.rulers": [80, 120],
+
+  // ——— terminal & panels ———
+  "terminal.integrated.fontSize": 16,
+  "debug.console.fontSize": 16,
+  "output.fontSize": 16,
+  "notebook.output.fontSize": 16,
+  "scm.inputFontSize": 16,
+
+  // ——— explorer & confirmations ———
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+
+  // ——— ChatGPT extension ———
+  "chatgpt.openOnStartup": true,
+
+  // ——— performance (exclude heavy dirs) ———
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.git/objects/**": true,
+    "**/dist/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.git": true
+  },
+
+  // ——— autosave & file hygiene ———
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+
+  // ——— Vim motions (VSCodeVim) ———
+  "vim.useSystemClipboard": true,
+  "vim.hlsearch": true,
+  "vim.incsearch": true,
+  "vim.cursorStylePerMode": true,
+  "vim.useCtrlKeys": true,
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": true,
+    "<C-b>": true
+  },
+  "vim.leader": " ",
+  "vim.normalModeKeyBindingsNonRecursive": [
+    { "before": ["<leader>", "w"], "commands": ["workbench.action.files.save"] },
+    { "before": ["<leader>", "q"], "commands": ["workbench.action.closeActiveEditor"] },
+    { "before": ["<leader>", "f"], "commands": ["editor.action.formatDocument"] },
+    { "before": ["<leader>", "a"], "commands": ["editor.action.organizeImports"] }
+  ],
+
+  // ——— format on save: imports + formatter ———
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+
+  // ——— default formatters ———
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Python: Black
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true
+  },
+  "python.formatting.provider": "none",
+
+  // Rust: rustfmt
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.formatOnSave": true
+  },
+  "rust-analyzer.rustfmt.rangeFormatting.enable": true,
+
+  // JSON / Markdown / YAML
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
+}

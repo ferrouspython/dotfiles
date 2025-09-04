@@ -9,3 +9,4 @@
 
 # Created by `pipx` on 2025-07-23 19:09:08
 export PATH="$PATH:/Users/zachhill/.local/bin"
+export PATH=/opt/avr32-tools/avr32/bin:$PATH

@@ -81,6 +81,7 @@ install_system_packages() {
                 "node"
                 "lazygit"
                 "python3"
+                "tree-sitter-cli"
             )
             
             for package in "${packages[@]}"; do
@@ -259,6 +260,7 @@ verify_installation() {
         "gcc:gcc"
         "node:Node.js"
         "git:git"
+        "tree-sitter:Tree-sitter CLI"
     )
     
     local optional_commands=(

@@ -1,0 +1,48 @@
+{
+  "environment": {
+    "executable": "/Users/zachhill/Dev/Commander/venv/bin/python",
+    "prefix": "/Users/zachhill/Dev/Commander/venv",
+    "version": "3.13.5.final.0",
+    "is64Bit": true,
+    "symlinks": [
+      "/Users/zachhill/Dev/Commander/venv/bin/python",
+      "/Users/zachhill/Dev/Commander/venv/bin/python3",
+      "/Users/zachhill/Dev/Commander/venv/bin/python3.13"
+    ]
+  },
+  "symlinks": [
+    [
+      "/Users/zachhill/Dev/Commander/venv/bin/python",
+      {
+        "secs_since_epoch": 1754593489,
+        "nanos_since_epoch": 188200113
+      },
+      {
+        "secs_since_epoch": 1754593489,
+        "nanos_since_epoch": 148549704
+      }
+    ],
+    [
+      "/Users/zachhill/Dev/Commander/venv/bin/python3",
+      {
+        "secs_since_epoch": 1754593489,
+        "nanos_since_epoch": 188200113
+      },
+      {
+        "secs_since_epoch": 1754593489,
+        "nanos_since_epoch": 148549704
+      }
+    ],
+    [
+      "/Users/zachhill/Dev/Commander/venv/bin/python3.13",
+      {
+        "secs_since_epoch": 1754593489,
+        "nanos_since_epoch": 188200113
+      },
+      {
+        "secs_since_epoch": 1754593489,
+        "nanos_since_epoch": 148549704
+      }
+    ]
+  ]
+}
